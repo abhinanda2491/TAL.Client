@@ -1,0 +1,3 @@
+<select [(ngModel)]="selectedOccupation">
+    <option *ngFor="let occupation of occupations" [value]="occupation">{{ occupation.name }}</option>
+</select>
