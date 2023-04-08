@@ -1,0 +1,28 @@
+<div class="confirm-container">
+    <h1 mat-dialog-title>Your premium calculation is below</h1>
+    <div mat-dialog-content>
+        <div class="col-md-12">
+            <mat-label>Name:</mat-label>
+            {{name}}
+        </div>
+        <div class="col-md-12">
+            <mat-label>Age:</mat-label>
+            {{age}}
+        </div>
+        <div class="col-md-12">
+            <mat-label>Death premium:</mat-label>
+            {{deathPremium}}
+        </div>
+        <div class="col-md-12">
+            <mat-label>TPD premium monthly:</mat-label>
+            {{tpdPremiumMonthly}}
+        </div>
+    </div>
+
+    <div mat-dialog-actions style="float:right;margin:20px;">
+
+        <button mat-button [mat-dialog-close]="{ clicked: 'Cancel' }">
+            Cancel
+        </button>
+    </div>
+</div>

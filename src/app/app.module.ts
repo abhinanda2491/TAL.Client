@@ -8,12 +8,14 @@ import { HomeComponent } from './home/home.component';
 import { OccupationService } from './services/OccupationService';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material.module';
+import { AlertComponent } from './alert/alert.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    AlertComponent
   ],
   imports: [
     FormsModule,

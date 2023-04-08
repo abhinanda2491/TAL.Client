@@ -1,8 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Occupation } from '../types/occupation';
 
+const header = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -13,10 +18,10 @@ export class OccupationService {
   constructor(private http: HttpClient) { }
 
   getOccupations(): Observable<Occupation[]> {
-    return this.http.get<Occupation[]>(this.apiUrl + "home/occupations");
+    return this.http.get<Occupation[]>(this.apiUrl + "home/occupations", header);
   }
 
   calculatePremium(requestBody: string) {
-    return this.http.post(this.apiUrl, requestBody);
+    return this.http.post(this.apiUrl + "home/caluclatePremium", requestBody, header);
   }
 }

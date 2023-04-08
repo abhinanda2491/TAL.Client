@@ -1,14 +1,14 @@
-<mat-card style="margin-bottom: 10px;">
-   
+<mat-card>
     <mat-card-content>
+
         <form method="post" [formGroup]="premiumForm" novalidate>
-            <mat-card-title>Premium calculator</mat-card-title>
+            <mat-card-title class="title-center">Premium calculator</mat-card-title>
             <div class="container col-md-12">
                 <mat-form-field class="example-full-width">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Name" value="" formControlName="name">
                     <mat-error *ngIf="errorHandling('name', 'required')">
-                        Please enter <strong>Name</strong>
+                        Please enter <strong>name</strong>.
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -16,13 +16,13 @@
             <div class="col-md-12">
                 <mat-form-field>
                     <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="dob"
-                    (dateChange)="onDateChange($event.value)" [max]="maxDate" [min]="minDate">
-                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="dob"
+                        (dateChange)="onDateChange($event.value)" [max]="maxDate" [min]="minDate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="errorHandling('dob', 'required')">
-                        Please select <strong>Date of Birth</strong>
+                        Please select <strong>date of birth</strong>.
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -35,18 +35,19 @@
             </div>
             <div class="container col-md-12">
                 <mat-form-field class="example-full-width">
-                    <mat-label>Sum Insured</mat-label>                    
-                    <input type="number" matInput name="sumInsured" value="" 
-                    placeholder="Sum Insured" value="" formControlName="sumInsured">                    
+                    <mat-label>Sum Insured</mat-label>
+                    <input type="number" matInput name="sumInsured" value="" placeholder="Sum Insured" value=""
+                        formControlName="sumInsured">
                     <mat-error *ngIf="errorHandling('sumInsured', 'required')">
-                        Please enter <strong>Sum Insured</strong>
+                        Please enter <strong>sum insured</strong> value.
                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-12">
                 <mat-form-field appearance="fill">
                     <mat-label>Occupation</mat-label>
-                    <mat-select [(ngModel)]="selectedOccupation">
+                    <mat-select [disabled]="!premiumForm.valid" [(ngModel)]="selectedOccupation"
+                        (selectionChange)="calculatePremium($event.value)">
                         <mat-option *ngFor="let occupation of occupations" [value]="occupation">
                             {{occupation.name}}
                         </mat-option>
@@ -55,4 +56,7 @@
             </div>
         </form>
     </mat-card-content>
+
+
+
 </mat-card>

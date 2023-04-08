@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     imports: [
@@ -19,16 +20,18 @@ import { MatSelectModule } from '@angular/material/select';
         MatDatepickerModule,
         MatNativeDateModule,
         MatCardModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDialogModule
     ],
     exports: [
         MatButtonModule,
-        MatIconModule,
         MatInputModule,
         MatFormFieldModule,
-        MatDatepickerModule, 
+        MatDatepickerModule,
         MatCardModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDialogModule,
+        MatIconModule
     ],
     providers: [
         MatDatepickerModule,

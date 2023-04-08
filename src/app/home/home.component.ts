@@ -1,38 +1,41 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Occupation } from '../types/occupation';
+import { PremiumRequest } from '../types/premiumRequest';
 import { OccupationService } from '../services/OccupationService';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertComponent } from '../alert/alert.component';
 
 @Component({
   selector: 'home-component',
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-
+  @Output()
+  dateChange: EventEmitter<MatDatepickerInputEvent<any>> = new EventEmitter();
   selectedOccupation: Occupation | null = null;
   occupations: Occupation[] = [];
   premiumForm!: FormGroup;
   minDate = new Date();
   maxDate = new Date();
-  @Output()
-  dateChange: EventEmitter<MatDatepickerInputEvent<any>> = new EventEmitter();
 
   constructor
     (
-      private occupationService: OccupationService
+      private occupationService: OccupationService,
+      private dialog: MatDialog
     ) { }
 
   ngOnInit(): void {
     this.setMinDatepickerDate();
     this.GetOccupations();
     this.formValidationBuilder();
+
   }
 
   formValidationBuilder() {
     this.premiumForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
-
       dob: new FormControl('', [Validators.required]),
       sumInsured: new FormControl('', [Validators.required, Validators.pattern(/^[.\d]+$/)])
     });
@@ -64,6 +67,26 @@ export class HomeComponent implements OnInit {
     return age;
   }
 
+  calculatePremium(event: any) {
+    const age = (<HTMLInputElement>document.getElementById('Age')).value;
+    const sumInsured = this.premiumForm.controls['sumInsured'].value;
+    const factor = event.factor;
+
+    var requestObj = new PremiumRequest();
+    requestObj.age = age;
+    requestObj.occupationRating = factor.toString();
+    requestObj.sumInsured = sumInsured.toString();
+    var requestBody = JSON.stringify(requestObj);
+    this.occupationService.calculatePremium(requestBody).subscribe({
+      next: (response: any) => {
+        this.openDialog(response, age);
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
+  }
+
   private GetOccupations() {
     this.occupationService.getOccupations().subscribe(
       {
@@ -73,6 +96,24 @@ export class HomeComponent implements OnInit {
         error(err) {
           console.log(err)
         },
+      }
+    );
+  }
+
+  openDialog(response: any, age: string) {
+    this.dialog.open(
+      AlertComponent,
+      {
+        width: '500px',
+        height: '240px',
+        data: {
+          "deathPremium": response["deathPremium"],
+          "tpdPremiumMonthly": response["tpdPremiumMonthly"],
+          "age": age,
+          "name": this.premiumForm.controls['name'].value
+        },
+        backdropClass: 'confirmDialogComponent',
+        hasBackdrop: true,
       }
     );
   }

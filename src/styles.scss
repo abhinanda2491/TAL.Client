@@ -12,10 +12,10 @@ body {
 }
 
 form {
-    width: 420px;
+    width: 50%;
     margin: 35px auto 100px;
-    display: block;
-    float: none;
+    display: flex block;
+    float: initial;
 }
 
 .mat-form-field {
@@ -23,16 +23,13 @@ form {
 }
 
 .misc-bottom-padding {
-    margin: 8px 0 20px;
+    margin: 50px 0 20px;
 }
 
 .misc-bottom-padding mat-label {
     margin-right: 15px;
 }
 
-.mat-radio-label {
-    margin: 0 15px 0 0;
-}
 
 .title-center {
     margin: 0 auto;
