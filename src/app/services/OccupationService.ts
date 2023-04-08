@@ -8,11 +8,15 @@ import { Occupation } from '../types/occupation';
 })
 
 export class OccupationService {
-  private apiUrl = 'https://localhost:7268/occupations';
+  private apiUrl = 'https://localhost:7268/';
 
   constructor(private http: HttpClient) { }
 
   getOccupations(): Observable<Occupation[]> {
-    return this.http.get<Occupation[]>(this.apiUrl, { headers: { "Access-Control-Allow-Origin": "*" } });
+    return this.http.get<Occupation[]>(this.apiUrl + "home/occupations");
+  }
+
+  calculatePremium(requestBody: string) {
+    return this.http.post(this.apiUrl, requestBody);
   }
 }

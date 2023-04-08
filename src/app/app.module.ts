@@ -6,11 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { OccupationService } from './services/OccupationService';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from './material.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent    
+    HomeComponent
   ],
   imports: [
     FormsModule,
@@ -18,6 +21,8 @@ import { OccupationService } from './services/OccupationService';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    AngularMaterialModule
   ],
   providers: [OccupationService],
   bootstrap: [AppComponent]
