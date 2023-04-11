@@ -37,7 +37,7 @@
                 <mat-form-field class="example-full-width">
                     <mat-label>Sum Insured</mat-label>
                     <input type="number" matInput name="sumInsured" value="" placeholder="Sum Insured" value=""
-                        formControlName="sumInsured">
+                        formControlName="sumInsured" (blur)="premiumForm.valid ? onClickEvent(selectedOccupation): ''">
                     <mat-error *ngIf="errorHandling('sumInsured', 'required')">
                         Please enter <strong>sum insured</strong> value.
                     </mat-error>
@@ -46,13 +46,18 @@
             <div class="col-md-12">
                 <mat-form-field appearance="fill">
                     <mat-label>Occupation</mat-label>
-                    <mat-select [disabled]="!premiumForm.valid" [(ngModel)]="selectedOccupation"
-                        (selectionChange)="calculatePremium($event.value)">
+                    <mat-select [(ngModel)]="selectedOccupation"
+                        (selectionChange)="premiumForm.valid ? onClickEvent($event.value):''"
+                        formControlName="occupationSelect">
                         <mat-option *ngFor="let occupation of occupations" [value]="occupation">
                             {{occupation.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <button mat-raised-button color="primary" [disabled]="!premiumForm.valid"
+                    (click)="onClickEvent(selectedOccupation)">Calculate</button>
             </div>
         </form>
     </mat-card-content>

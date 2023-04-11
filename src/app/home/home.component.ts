@@ -30,14 +30,14 @@ export class HomeComponent implements OnInit {
     this.setMinDatepickerDate();
     this.GetOccupations();
     this.formValidationBuilder();
-
   }
 
   formValidationBuilder() {
     this.premiumForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
-      sumInsured: new FormControl('', [Validators.required, Validators.pattern(/^[.\d]+$/)])
+      sumInsured: new FormControl('', [Validators.required, Validators.pattern(/^[.\d]+$/)]),
+      occupationSelect: new FormControl('', [Validators.required])
     });
   }
 
@@ -67,15 +67,18 @@ export class HomeComponent implements OnInit {
     return age;
   }
 
-  calculatePremium(event: any) {
-    const age = (<HTMLInputElement>document.getElementById('Age')).value;
-    const sumInsured = this.premiumForm.controls['sumInsured'].value;
-    const factor = event.factor;
+  onClickEvent(occupationSlection: any) {
+    const age = (<HTMLInputElement>document.getElementById('Age')).value.toString();
+    const sumInsured = this.premiumForm.controls['sumInsured'].value.toString();
+    const factor = occupationSlection.factor.toString();
+    this.calculatePremium(age, sumInsured, factor);
+  }
 
+  calculatePremium(age: string, sumInsured: string, factor: string) {
     var requestObj = new PremiumRequest();
     requestObj.age = age;
-    requestObj.occupationRating = factor.toString();
-    requestObj.sumInsured = sumInsured.toString();
+    requestObj.occupationRating = factor;
+    requestObj.sumInsured = sumInsured;
     var requestBody = JSON.stringify(requestObj);
     this.occupationService.calculatePremium(requestBody).subscribe({
       next: (response: any) => {
